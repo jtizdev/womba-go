@@ -1,0 +1,31 @@
+# Binaries
+womba
+womba-*
+*.exe
+
+# Go
+*.o
+*.a
+*.so
+*.test
+*.out
+
+# Directories
+vendor/
+bin/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.local
+
