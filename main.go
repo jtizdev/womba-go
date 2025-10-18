@@ -105,12 +105,12 @@ func generateTests(apiURL, apiKey, storyKey string, upload bool) {
 	}
 
 	// Print results
-	storyKey := "N/A"
+	resultStoryKey := "N/A"
 	if key, ok := result.TestPlan.Story["key"].(string); ok {
-		storyKey = key
+		resultStoryKey = key
 	}
 	
-	color.Green("\n✅ Successfully generated %d test cases for %s!", len(result.TestPlan.TestCases), storyKey)
+	color.Green("\n✅ Successfully generated %d test cases for %s!", len(result.TestPlan.TestCases), resultStoryKey)
 	
 	if result.TestPlan.Metadata != nil {
 		if qualityScore, ok := result.TestPlan.Metadata["quality_score"].(float64); ok {
