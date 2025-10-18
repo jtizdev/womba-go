@@ -18,7 +18,7 @@ type WombaClient struct {
 
 // GenerateRequest represents the request to generate tests
 type GenerateRequest struct {
-	StoryKey       string `json:"story_key"`
+	StoryKey       string `json:"issue_key"`
 	UploadToZephyr bool   `json:"upload_to_zephyr"`
 }
 
