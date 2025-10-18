@@ -1,34 +1,27 @@
-# Womba Go CLI
+# Womba CLI (Go)
 
-AI-powered test generation for Jira stories.
+> AI-powered test generation for Jira stories
 
-## Installation
+## Install
 
 ```bash
 go install github.com/jtizdev/womba-go@latest
 ```
 
-## Configuration
-
-```bash
-export WOMBA_API_URL="https://womba-api.up.railway.app"
-export WOMBA_API_KEY="your-api-key"
-```
-
 ## Usage
 
 ```bash
+# Setup
+export WOMBA_API_URL="https://womba-api.onrender.com"
+export WOMBA_API_KEY="your-api-key"
+
 # Generate tests
 womba generate -story PLAT-12991
 
 # Generate and upload to Zephyr
 womba generate -story PLAT-12991 -upload
-
-# Check API health
-womba health
 ```
 
-## Support
+## License
 
-- [Main Docs](https://github.com/jtizdev/womba)
-- [Issues](https://github.com/jtizdev/womba-go/issues)
+MIT · [Womba](https://github.com/jtizdev/womba)
