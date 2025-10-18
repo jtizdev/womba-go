@@ -33,15 +33,19 @@ type TestCase struct {
 	TestType       string                   `json:"test_type"`
 }
 
+// TestPlan represents the test plan structure
+type TestPlan struct {
+	Story            map[string]interface{}   `json:"story"`
+	TestCases        []TestCase               `json:"test_cases"`
+	Metadata         map[string]interface{}   `json:"metadata"`
+	Summary          string                   `json:"summary"`
+	CoverageAnalysis string                   `json:"coverage_analysis"`
+}
+
 // GenerateResponse represents the response from test generation
 type GenerateResponse struct {
-	StoryKey             string                 `json:"story_key"`
-	TestCases            []TestCase             `json:"test_cases"`
-	QualityScore         float64                `json:"quality_score"`
-	SuggestedFolder      string                 `json:"suggested_folder"`
-	ExecutionTimeSeconds float64                `json:"execution_time_seconds"`
-	ZephyrIDs            []string               `json:"zephyr_ids,omitempty"`
-	Metadata             map[string]interface{} `json:"metadata"`
+	TestPlan      TestPlan               `json:"test_plan"`
+	ZephyrResults map[string]interface{} `json:"zephyr_results,omitempty"`
 }
 
 // ErrorResponse represents an error from the API

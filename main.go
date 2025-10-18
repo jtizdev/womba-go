@@ -105,17 +105,27 @@ func generateTests(apiURL, apiKey, storyKey string, upload bool) {
 	}
 
 	// Print results
-	color.Green("\n✅ Successfully generated %d test cases!", len(result.TestCases))
-	color.Cyan("📊 Quality Score: %.1f/100", result.QualityScore)
-	color.Cyan("📁 Suggested Folder: %s", result.SuggestedFolder)
-	color.Cyan("⏱️  Execution Time: %.2fs", result.ExecutionTimeSeconds)
-
-	if result.Metadata != nil {
-		if aiModel, ok := result.Metadata["ai_model"].(string); ok {
-			color.Cyan("🤖 AI Model: %s", aiModel)
+	storyKey := "N/A"
+	if key, ok := result.TestPlan.Story["key"].(string); ok {
+		storyKey = key
+	}
+	
+	color.Green("\n✅ Successfully generated %d test cases for %s!", len(result.TestPlan.TestCases), storyKey)
+	
+	if result.TestPlan.Metadata != nil {
+		if qualityScore, ok := result.TestPlan.Metadata["quality_score"].(float64); ok {
+			color.Cyan("📊 Quality Score: %.1f/100", qualityScore)
 		}
-		if testCount, ok := result.Metadata["test_count"].(float64); ok {
-			color.Cyan("📝 Test Count: %.0f", testCount)
+		if folderName, ok := result.TestPlan.Metadata["suggested_folder"].(map[string]interface{}); ok {
+			if name, ok := folderName["name"].(string); ok {
+				color.Cyan("📁 Suggested Folder: %s", name)
+			}
+		}
+		if execTime, ok := result.TestPlan.Metadata["execution_time_seconds"].(float64); ok {
+			color.Cyan("⏱️  Execution Time: %.2fs", execTime)
+		}
+		if aiModel, ok := result.TestPlan.Metadata["ai_model"].(string); ok {
+			color.Cyan("🤖 AI Model: %s", aiModel)
 		}
 	}
 
@@ -123,7 +133,7 @@ func generateTests(apiURL, apiKey, storyKey string, upload bool) {
 	fmt.Println("\n" + color.YellowString("Generated Test Cases:"))
 	fmt.Println(color.YellowString(strings.Repeat("=", 80)))
 
-	for i, testCase := range result.TestCases {
+	for i, testCase := range result.TestPlan.TestCases {
 		fmt.Printf("\n%s\n", color.CyanString("%d. %s", i+1, testCase.Title))
 		fmt.Printf("   Priority: %s | Type: %s\n", testCase.Priority, testCase.TestType)
 		fmt.Printf("   Description: %s\n", testCase.Description)
@@ -131,10 +141,12 @@ func generateTests(apiURL, apiKey, storyKey string, upload bool) {
 	}
 
 	// Print Zephyr IDs if uploaded
-	if upload && len(result.ZephyrIDs) > 0 {
+	if upload && result.ZephyrResults != nil {
 		fmt.Println("\n" + color.GreenString("✅ Uploaded to Zephyr:"))
-		for i, zephyrID := range result.ZephyrIDs {
-			fmt.Printf("   %d. %s\n", i+1, zephyrID)
+		if zephyrIDs, ok := result.ZephyrResults["zephyr_ids"].([]interface{}); ok {
+			for i, zephyrID := range zephyrIDs {
+				fmt.Printf("   %d. %s\n", i+1, zephyrID)
+			}
 		}
 	}
 
@@ -174,4 +186,3 @@ func checkHealth(apiURL, apiKey string) {
 		}
 	}
 }
-
