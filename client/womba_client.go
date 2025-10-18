@@ -35,13 +35,13 @@ type TestCase struct {
 
 // GenerateResponse represents the response from test generation
 type GenerateResponse struct {
-	StoryKey              string                 `json:"story_key"`
-	TestCases             []TestCase             `json:"test_cases"`
-	QualityScore          float64                `json:"quality_score"`
-	SuggestedFolder       string                 `json:"suggested_folder"`
-	ExecutionTimeSeconds  float64                `json:"execution_time_seconds"`
-	ZephyrIDs             []string               `json:"zephyr_ids,omitempty"`
-	Metadata              map[string]interface{} `json:"metadata"`
+	StoryKey             string                 `json:"story_key"`
+	TestCases            []TestCase             `json:"test_cases"`
+	QualityScore         float64                `json:"quality_score"`
+	SuggestedFolder      string                 `json:"suggested_folder"`
+	ExecutionTimeSeconds float64                `json:"execution_time_seconds"`
+	ZephyrIDs            []string               `json:"zephyr_ids,omitempty"`
+	Metadata             map[string]interface{} `json:"metadata"`
 }
 
 // ErrorResponse represents an error from the API
@@ -74,7 +74,7 @@ func (c *WombaClient) GenerateTests(storyKey string, upload bool) (*GenerateResp
 		return nil, fmt.Errorf("failed to marshal request: %w", err)
 	}
 
-	req, err := http.NewRequest("POST", c.BaseURL+"/api/v1/generate", bytes.NewBuffer(jsonData))
+	req, err := http.NewRequest("POST", c.BaseURL+"/api/v1/test-plans/generate", bytes.NewBuffer(jsonData))
 	if err != nil {
 		return nil, fmt.Errorf("failed to create request: %w", err)
 	}
@@ -129,4 +129,3 @@ func (c *WombaClient) HealthCheck() (map[string]interface{}, error) {
 
 	return result, nil
 }
-
